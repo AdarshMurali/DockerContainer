@@ -10,5 +10,7 @@ COPY . /app
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+EXPOSE 5000
+
 # Specify the command to run your application (replace app.py with the name of your Python script)
 CMD ["python", "app.py"]
