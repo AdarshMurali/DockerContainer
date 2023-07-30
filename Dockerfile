@@ -1,24 +1,21 @@
-# Use an official Python runtime as a base image
+# Use the official Microsoft SQL Server ODBC driver as a base image
+FROM mcr.microsoft.com/azure-sql-edge
+
+# Use an official Python runtime as the second stage
 FROM python:3.9-slim
 
 # Set the working directory inside the container
 WORKDIR /app
 
-
-# Install ODBC drivers and dependencies
+# Install required libraries for pyodbc
 RUN apt-get update \
     && apt-get install -y curl \
-    && apt-get install -y --no-install-recommends unixodbc-dev freetds-dev gcc \
+    && apt-get install -y --no-install-recommends unixodbc-dev gcc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-    
 # Copy the current directory contents into the container at /app
 COPY . /app
-
-# Set the environment variable for the ODBC driver location
-ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/local/lib
-
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
