@@ -1,27 +1,18 @@
-# Use the official Ubuntu base image
-FROM ubuntu:latest
+# Use the official Microsoft SQL Server ODBC driver as a base image
+FROM mcr.microsoft.com/azure-sql-edge
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install required libraries for pyodbc and curl
-RUN apt-get update \
-    && apt-get install -y curl \
-    && apt-get install -y --no-install-recommends unixodbc-dev gcc curl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Download and install the Microsoft SQL Server ODBC Driver for Linux
-RUN curl https://packages.microsoft.com/debian/11/prod/pool/main/m/msodbcsql17/msodbcsql17_17.9.1.1-1_amd64.deb -o msodbcsql.deb \
-    && ACCEPT_EULA=Y dpkg -i msodbcsql.deb \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends g++ \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* msodbcsql.deb
-
 # Install Python and required libraries
 RUN apt-get update \
     && apt-get install -y python3 python3-pip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install required libraries for pyodbc and curl
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends unixodbc-dev gcc curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
