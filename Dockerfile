@@ -16,6 +16,10 @@ RUN apt-get update \
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+# Set the environment variable for the ODBC driver location
+ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/local/lib
+
+
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
