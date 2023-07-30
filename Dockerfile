@@ -4,16 +4,11 @@ FROM python:3.9-slim
 # Set the working directory inside the container
 WORKDIR /app
 
+
 # Install ODBC drivers and dependencies
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends unixodbc-dev gcc \
     && apt-get install -y curl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install the ODBC driver for SQL Server from the Microsoft repository
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends mssql-tools \
+    && apt-get install -y --no-install-recommends unixodbc-dev freetds-dev gcc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
