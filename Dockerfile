@@ -23,4 +23,4 @@ ENV AzureWebJobsScriptHost__Worker__Description__LanguageWorkers__Python__Argume
 EXPOSE 80
 
 # Specify the command to run your application (replace your_function_name with the name of your Python function file)
-CMD ["func", "host", "start", "--port", "80", "--python", "your_function_name.py"]
+CMD ["func", "host", "start", "--port", "80", "--python", "app.py"]
