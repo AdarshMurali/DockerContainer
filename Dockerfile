@@ -14,6 +14,9 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Set the environment variable for the ODBC driver location
+ENV LD_LIBRARY_PATH=/opt/microsoft/msodbcsql17/lib64:/usr/lib/x86_64-linux-gnu:/usr/lib:/usr/local/lib
+
 # Copy the current directory contents into the container at /app
 COPY . /app
 
