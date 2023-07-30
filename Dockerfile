@@ -1,6 +1,9 @@
 # Use the official Microsoft SQL Server ODBC driver as a base image
 FROM mcr.microsoft.com/azure-sql-edge
 
+# Switch to the root user
+USER root
+
 # Set the working directory inside the container
 WORKDIR /app
 
