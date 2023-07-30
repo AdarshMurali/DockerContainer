@@ -10,13 +10,15 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install the ODBC driver for SQL Server (replace version and URL with the appropriate driver)
-RUN wget https://packages.microsoft.com/debian/10/prod/pool/main/m/msodbcsql17/msodbcsql17_17.9.1.1-1_amd64.deb -O msodbcsql.deb \
-    && ACCEPT_EULA=Y dpkg -i msodbcsql.deb \
+# Copy the ODBC driver for SQL Server to the container (adjust the driver file name as needed)
+COPY msodbcsql17_17.9.1.1-1_amd64.deb /tmp/msodbcsql.deb
+
+# Install the ODBC driver for SQL Server
+RUN ACCEPT_EULA=Y dpkg -i /tmp/msodbcsql.deb \
     && apt-get update \
     && apt-get install -y --no-install-recommends g++ \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* msodbcsql.deb
+    && rm -rf /var/lib/apt/lists/* /tmp/msodbcsql.deb
 
     
 # Copy the current directory contents into the container at /app
