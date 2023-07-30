@@ -4,9 +4,9 @@ FROM ubuntu:latest
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install required libraries for pyodbc
+# Install required libraries for pyodbc and curl
 RUN apt-get update \
-&& apt-get install -y curl \
+    && apt-get install -y curl \
     && apt-get install -y --no-install-recommends unixodbc-dev gcc curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
