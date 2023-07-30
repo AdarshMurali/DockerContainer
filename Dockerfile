@@ -11,12 +11,11 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN curl https://download.microsoft.com/download/1/f/8/1f8f7dd4-805c-4e33-9c15-0c70f49916e4/msodbcsql17_17.9.1.1-1_amd64.deb -o msodbcsql.deb \
-    && ACCEPT_EULA=Y dpkg -i msodbcsql.deb \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends g++ \
+# Install the ODBC driver for SQL Server from the Microsoft repository
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends mssql-tools \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* msodbcsql.deb
+    && rm -rf /var/lib/apt/lists/*
 
     
 # Copy the current directory contents into the container at /app
