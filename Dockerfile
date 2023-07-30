@@ -4,6 +4,9 @@ FROM mcr.microsoft.com/azure-sql-edge
 # Set the working directory inside the container
 WORKDIR /app
 
+# Create the required directories for package lists
+RUN mkdir -p /var/lib/apt/lists/partial
+
 # Install Python and required libraries
 RUN apt-get update \
     && apt-get install -y python3 python3-pip \
