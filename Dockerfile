@@ -1,5 +1,5 @@
-# Use the official SQL Server 2019 image as a base
-FROM mcr.microsoft.com/mssql/server:2019
+# Use the official SQL Server image as a base
+FROM mcr.microsoft.com/mssql/server:latest
 
 # Set the working directory inside the container
 WORKDIR /app
