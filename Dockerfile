@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:2.7-slim
+FROM python:3.7-slim
 
 ADD odbcinst.ini /etc/odbcinst.ini
 RUN apt-get update
