@@ -15,8 +15,8 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     && apt-get update \
     && ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql17
 
-# Install required Python libraries
-RUN pip3 install --no-cache-dir Flask pyodbc
+# Install an older version of pyodbc
+RUN pip3 install --no-cache-dir Flask pyodbc==4.0.30
 
 # Copy the current directory contents into the container at /app
 COPY . /app
