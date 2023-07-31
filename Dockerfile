@@ -14,7 +14,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     && ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql17
 
 # Install required Python libraries
-RUN pip install --no-cache-dir Flask pyodbc
+RUN pip3 install --no-cache-dir Flask pyodbc
 
 # Copy the current directory contents into the container at /app
 COPY . /app
@@ -28,4 +28,4 @@ ENV SQL_PASSWORD=Portfolio@007
 EXPOSE 5000
 
 # Specify the command to run your application (replace app.py with the name of your Python script)
-CMD ["python", "app.py"]
+CMD ["python3", "app.py"]
