@@ -1,7 +1,7 @@
 FROM python:3
 WORKDIR /app
 ADD requirements.txt .
-ADD main.py .
+ADD app.py .
 # install FreeTDS and dependencies
 RUN apt-get update \
  && apt-get install unixodbc -y \
