@@ -1,26 +1,28 @@
-# Use the official Azure Functions Python base image
-FROM mcr.microsoft.com/azure-functions/python
+# Use the official Python runtime as a base image
+FROM python:3.8-slim
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install required libraries for pyodbc and curl
+# Install ODBC drivers and dependencies
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends unixodbc-dev gcc curl \
+    && apt-get install -y --no-install-recommends unixodbc-dev gcc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY requirements.txt /
-RUN python -m pip install --no-cache-dir -r /requirements.txt
+# Install required Python libraries
+RUN pip install --no-cache-dir Flask pyodbc
 
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Set the Azure Functions Python worker to use Flask as the web framework
-ENV AzureWebJobsScriptHost__Worker__Description__LanguageWorkers__Python__Arguments="--worker-python-worker-interpretor C:\\python38\\python.exe"
+# Set environment variables for SQL Server connection
+ENV SQL_SERVER_HOST=portfoliorecomendation.database.windows.net
+ENV SQL_DATABASE=Portfolio
+ENV SQL_USERNAME=PortRecom
+ENV SQL_PASSWORD=Portfolio@007
 
-EXPOSE 80
+EXPOSE 5000
 
-# Specify the command to run your application (replace your_function_name with the name of your Python function file)
-CMD ["func", "host", "start", "--port", "80", "--python", "app.py"]
+# Specify the command to run your application (replace app.py with the name of your Python script)
+CMD ["python", "app.py"]
