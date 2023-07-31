@@ -17,4 +17,4 @@ Driver = /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n\
 Setup = /usr/lib/x86_64-linux-gnu/odbc/libtdsS.so" >> /etc/odbcinst.ini
 #Pip command without proxy setting
 RUN pip install -r requirements.txt
-CMD ["python","-i","main.py"]
+CMD ["python","-i","app.py"]
