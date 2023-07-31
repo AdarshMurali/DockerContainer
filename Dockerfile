@@ -1,23 +1,19 @@
-# Use the official Python runtime as a base image
-FROM python:3.8-slim
+# Use the official SQL Server 2019 image as a base
+FROM mcr.microsoft.com/mssql/server:2019
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install ODBC drivers and dependencies
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends unixodbc-dev gcc curl gnupg2 \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+# Install required Python libraries
+RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pip
 
-# Install the Microsoft ODBC driver for SQL Server
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+# Install ODBC driver for SQL Server in the container
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl gnupg2 \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
     && apt-get update \
     && ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql17
-
-# Set the ODBC configuration directory
-ENV ODBCSYSINI=/etc
 
 # Install required Python libraries
 RUN pip install --no-cache-dir Flask pyodbc
@@ -30,6 +26,8 @@ ENV SQL_SERVER_HOST=portfoliorecomendation.database.windows.net
 ENV SQL_DATABASE=Portfolio
 ENV SQL_USERNAME=PortRecom
 ENV SQL_PASSWORD=Portfolio@007
+ENV ODBCSYSINI=/etc
+
 
 EXPOSE 5000
 
