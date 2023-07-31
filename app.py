@@ -19,7 +19,7 @@ def hello_geek():
     return '<h1>Hello from Flask & Docker</h2>'
 
 @app.route('/api/hello')
-def hello_geek():
+def hello():
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM dbo.Clients')
     data = cursor.fetchall()
