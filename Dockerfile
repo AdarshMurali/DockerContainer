@@ -1,11 +1,12 @@
-# Use an official Debian-based image with apt package manager available
-FROM debian:10-slim
+# Use an official Python runtime as a base image
+FROM python:3.8-slim-buster
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install required Python libraries and ODBC drivers
-RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pip python3-setuptools curl gnupg2 unixodbc-dev g++ \
+# Install ODBC drivers and dependencies
+RUN apt-get update \
+    && apt-get install -y curl gnupg2 unixodbc-dev gcc \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -15,8 +16,8 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
     && apt-get update \
     && ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql17
 
-# Install an older version of pyodbc
-RUN pip3 install --no-cache-dir Flask pyodbc==4.0.30
+# Install Python dependencies
+RUN pip install --no-cache-dir Flask pyodbc
 
 # Copy the current directory contents into the container at /app
 COPY . /app
@@ -30,4 +31,4 @@ ENV SQL_PASSWORD=Portfolio@007
 EXPOSE 5000
 
 # Specify the command to run your application (replace app.py with the name of your Python script)
-CMD ["python3", "app.py"]
+CMD ["python", "app.py"]
