@@ -6,9 +6,18 @@ WORKDIR /app
 
 # Install ODBC drivers and dependencies
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends unixodbc-dev gcc \
+    && apt-get install -y --no-install-recommends unixodbc-dev gcc curl gnupg2 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Install the Microsoft ODBC driver for SQL Server
+RUN curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/10/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get install -y --no-install-recommends msodbcsql17
+
+# Set the ODBC configuration directory
+ENV ODBCSYSINI=/etc
 
 # Install required Python libraries
 RUN pip install --no-cache-dir Flask pyodbc
