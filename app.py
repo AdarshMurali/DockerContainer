@@ -11,7 +11,7 @@ username = 'PortRecom'
 password = 'Portfolio@007'
 
 # Create the database connection
-connection_string = f'DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+connection_string = f'DRIVER={{FreeTDS}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 connection = pyodbc.connect(connection_string)
 
 @app.route('/api/bye')
