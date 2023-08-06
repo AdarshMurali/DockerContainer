@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: adarshmurali/dockerfrontend:100
+    environment:
+      API_URL: http://backend:5000
+    networks:
+      - myapp_network
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.role == worker]
+
+  backend:
+    image: adarshmurali/dockerpython:96
+    networks:
+      - myapp_network
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.role == worker]
+
+  proxy:
+    image: nginx:1.23
+    ports:
+      - '80:80'
+    networks:
+      - myapp_network
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+networks:
+  myapp_network:
+    external: true
